@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>For Billie 🐈‍⬛</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0d0b0a;color:#f5e9df;font-family:system-ui,-apple-system,sans-serif;text-align:center}
+.screen{display:none;min-height:100vh;padding:28px 18px;align-items:center;justify-content:center}
+.screen.active{display:flex}
+.card{width:min(520px,100%);padding:28px 20px;border:1px solid #4d3b31;border-radius:24px;background:#171311;box-shadow:0 15px 50px #0008}
+h1,h2{margin-top:0}
+.small{opacity:.72;line-height:1.6}
+.btn{display:block;width:100%;margin:12px 0;padding:14px;border:1px solid #725849;border-radius:16px;background:#241b17;color:#fff1e7;font-size:16px;cursor:pointer}
+.btn:active{transform:scale(.98)}
+.cat{font-size:74px;margin:5px}
+.reaction{min-height:32px;margin:12px;font-size:20px}
+.photo{width:min(310px,90%);border-radius:20px;border:1px solid #604b3e;margin-top:12px;cursor:pointer}
+.caption{max-width:330px;margin:10px auto 22px;line-height:1.55;font-style:italic;color:#dcc7b8}
+.progress{height:7px;background:#2a211d;border-radius:99px;overflow:hidden;margin:15px 0}
+.progress i{display:block;width:0;height:100%;background:#9a7865;transition:.35s}
+#stars{position:relative;height:110px;margin-top:5px}
+.star{position:absolute;font-size:23px;cursor:pointer;transition:.2s}
+.star.found{opacity:.18;transform:scale(.7)}
+.photoModal{display:none;position:fixed;inset:0;background:#000e;z-index:20;align-items:center;justify-content:center;padding:18px}
+.photoModal.show{display:flex}
+.photoModal img{max-width:95vw;max-height:78vh;border-radius:20px}
+.modalText{position:absolute;bottom:18px;left:18px;right:18px}
+#countdown{font-size:70px;margin:10px}
+</style>
+</head>
+<body>
+
+<div class="screen active" id="s1">
+<div class="card">
+<div class="cat" id="entranceCat">🐈‍⬛</div>
+<h1>For Billie</h1>
+<p>There is absolutely no normal reason for this website to exist.</p>
+<p class="small">So obviously... I made it anyway.</p>
+<div class="reaction" id="entranceReaction"></div>
+<button class="btn" onclick="pokeCat()">Tap the cat 🐈‍⬛</button>
+<button class="btn" onclick="go(2)">Enter the chaos 🖤</button>
+</div>
+</div>
+
+<div class="screen" id="s2">
+<div class="card">
+<div class="cat" id="runCat">🐈‍⬛</div>
+<h2>Billie after 11 PM</h2>
+<p>Normal mode has been disabled.</p>
+<p class="small">Always keep up your vibe. You're genuinely one of the funniest people I've met... after me, obviously. 😌</p>
+<div class="reaction" id="catReaction"></div>
+<button class="btn" onclick="catRun()">Make Billie run 💨</button>
+<button class="btn" onclick="go(2.5)">Continue 🗂️</button>
+</div>
+</div>
+
+<div class="screen" id="s2b">
+<div class="card">
+<h2>Billie Lore 🗂️</h2>
+<p>Quick memory check.</p>
+<p><b>Where did I first hear your voice?</b></p>
+<button class="btn" onclick="lore(false)">Roblox 🎮</button>
+<button class="btn" onclick="lore(true)">BGMI 🎙️</button>
+<button class="btn" onclick="lore(false)">Minecraft ⛏️</button>
+<p id="loreText" class="small"></p>
+<button class="btn" onclick="go(3)">Continue 🌸</button>
+</div>
+</div>
+
+<div class="screen" id="s3">
+<div class="card">
+<h2>Three little things 📸</h2>
+<p>Tap the button to reveal the photos one by one.</p>
+<div class="progress"><i id="bar"></i></div>
+<div id="photoBox"></div>
+<div id="stars"></div>
+<p id="photoCount" class="small">0 / 3 photos revealed</p>
+<p id="starCount" class="small">⭐ 0 / 3 hidden stars found</p>
+<button class="btn" onclick="revealPhoto()">Reveal a photo 🌸</button>
+<button class="btn" onclick="go(3.5)">Continue 🌙</button>
+</div>
+</div>
+
+<div class="screen" id="s3b">
+<div class="card">
+<div class="cat">🐈‍⬛</div>
+<h2>One tiny question</h2>
+<p>What happens when the clock gets late?</p>
+<button class="btn" onclick="late('chaos')">Chaos 💀</button>
+<button class="btn" onclick="late('sleep')">Sleep peacefully 😴</button>
+<button class="btn" onclick="late('homework')">Suddenly productive 📚</button>
+<p id="lateText" class="small"></p>
+<button class="btn" onclick="go(4)">Unlock the hidden message 🔐</button>
+</div>
+</div>
+
+<div class="screen" id="s4">
+<div class="card">
+<h2>Hidden message 🔐</h2>
+<p id="message">Tap each button. Don't skip them.</p>
+<button class="btn" onclick="msg(1)">Message 1 💌</button>
+<button class="btn" onclick="msg(2)">Message 2 💌</button>
+<button class="btn" onclick="msg(3)">Message 3 💌</button>
+<p id="msgText" class="small"></p>
+<button class="btn" onclick="go(5)">Next 🎙️</button>
+</div>
+</div>
+
+<div class="screen" id="s5">
+<div class="card">
+<h2>That voice memory 🎙️</h2>
+<p>Meeting you was like hearing a song for the first time and somehow knowing it would become a favourite.</p>
+<p class="small">The first time I heard you speak through the BGMI mic, I remember liking your voice. And somehow that little memory stayed.</p>
+<button class="btn" onclick="voiceSecret()">🎧 One more thing</button>
+<p id="voiceText" class="small"></p>
+<button class="btn" onclick="go(6)">Keep going 🎮</button>
+</div>
+</div>
+
+<div class="screen" id="s6">
+<div class="card">
+<h2>Our random memories 🎮</h2>
+<p>Roblox. BGMI. Random conversations. Random laughs.</p>
+<p class="small">You always somehow manage to lift my mood when I'm having a rough day, and I appreciate that more than I probably say.</p>
+<button class="btn" onclick="memoryTap()">Tap for a memory ✨</button>
+<p id="memoryText" class="small"></p>
+<button class="btn" onclick="go(6.5)">Before the last page... 🌙</button>
+</div>
+</div>
+
+<div class="screen" id="s6b">
+<div class="card">
+<div id="countdown">10</div>
+<h2>Before the last page...</h2>
+<p>Take a tiny pause. This part is just for Billie.</p>
+<p id="countText" class="small">Something nice is coming...</p>
+<button class="btn" id="countBtn" type="button" onclick="startCount()">Start ✨</button>
+</div>
+</div>
+
+<div class="screen" id="s7">
+<div class="card">
+<div class="cat">🐈‍⬛</div>
+<h2>For real this time.</h2>
+<p>You are the best HG in the world.</p>
+<p>You are one of the funniest people I've ever met, and your vibe is something I genuinely hope you never lose.</p>
+<p>You are the best friend I've ever had. I'll always love you with all my heart.</p>
+<p>I'm always here for you, and I always will be.</p>
+<p class="small">I just made this little corner of the internet to remind you of that.</p>
+<h2>Happy just-because, Billie. 🖤</h2>
+</div>
+</div>
+
+<div class="photoModal" id="modal" onclick="closeModal(event)">
+<img id="modalImg" src="" alt="Billie">
+<div class="modalText" id="modalText"></div>
+</div>
+
+<script>
+const scenes={1:"s1",2:"s2",2.5:"s2b",3:"s3",3.5:"s3b",4:"s4",5:"s5",6:"s6",6.5:"s6b",7:"s7"};
+let current=1;
+
+function go(n){
+ const old=document.getElementById(scenes[current]);
+ const next=document.getElementById(scenes[n]);
+ if(!next)return;
+ if(old)old.classList.remove("active");
+ current=n;
+ next.classList.add("active");
+ window.scrollTo(0,0);
+ if(n===6.5)resetCount();
+}
+
+function pokeCat(){
+ const a=["meow.","Billie detected.","The cat approves.","Okay... now enter. 🖤"];
+ document.getElementById("entranceReaction").textContent=a[Math.floor(Math.random()*a.length)];
+}
+function catRun(){
+ const c=document.getElementById("runCat");
+ c.style.transform="translateX(70px) rotate(8deg)";
+ document.getElementById("catReaction").textContent="THE CAT HAS ESCAPED. 💀";
+ setTimeout(()=>c.style.transform="",600);
+}
+function lore(ok){
+ document.getElementById("loreText").textContent=ok?"Correct 😎🎙️ That mic moment is part of the lore.":"Nope 😂 Try again.";
+}
+function late(x){
+ document.getElementById("lateText").textContent=x==="chaos"?"Correct. The evidence is overwhelming. 💀🐈‍⬛":"Nice try. We both know it's chaos. 😂";
+}
+
+const photos=[
+ {file:"1000228231.jpg",caption:"Honestly, these are the most beautiful eyes I've ever seen. 🖤"},
+ {file:"1000228232.jpg",caption:"Somehow you can make even the most random moments look adorable. 🌙"},
+ {file:"1000228230.jpg",caption:"There's just something effortlessly beautiful about this picture of you. ✨"}
+];
+let photoIndex=0;
+let starsFound=0;
+let starsReady=false;
+
+function revealPhoto(){
+ if(photoIndex>=3)return;
+ const p=photos[photoIndex];
+ const wrap=document.createElement("div");
+ const img=document.createElement("img");
+ img.className="photo";
+ img.src=p.file;
+ img.onclick=()=>openModal(p.file,p.caption);
+ const cap=document.createElement("p");
+ cap.className="caption";
+ cap.textContent=p.caption;
+ wrap.appendChild(img);wrap.appendChild(cap);
+ document.getElementById("photoBox").prepend(wrap);
+ photoIndex++;
+ document.getElementById("bar").style.width=(photoIndex/3*100)+"%";
+ document.getElementById("photoCount").textContent=photoIndex+" / 3 photos revealed";
+ if(!starsReady){spawnStars();starsReady=true;}
+}
+function spawnStars(){
+ const box=document.getElementById("stars");
+ for(let i=0;i<3;i++){
+  const s=document.createElement("span");
+  s.className="star";s.textContent="⭐";
+  s.style.left=(10+Math.random()*80)+"%";
+  s.style.top=(10+Math.random()*70)+"%";
+  s.onclick=()=>{
+   if(s.classList.contains("found"))return;
+   s.classList.add("found");starsFound++;
+   document.getElementById("starCount").textContent="⭐ "+starsFound+" / 3 hidden stars found";
+  };
+  box.appendChild(s);
+ }
+}
+function openModal(src,text){
+ document.getElementById("modalImg").src=src;
+ document.getElementById("modalText").textContent=text+" — tap outside to close";
+ document.getElementById("modal").classList.add("show");
+}
+function closeModal(e){
+ if(e.target.id==="modal")document.getElementById("modal").classList.remove("show");
+}
+
+let messages=0;
+function msg(n){
+ const t=[
+  "You are genuinely one of the people who can make a bad day feel lighter.",
+  "I appreciate every random game, laugh and conversation we've had.",
+  "No matter how random life gets, I hope you always keep that Billie vibe."
+ ];
+ document.getElementById("msgText").textContent=t[n-1];
+ messages++;
+}
+function voiceSecret(){
+ document.getElementById("voiceText").textContent="And yes... I still like hearing you talk. 🎙️🖤";
+}
+function memoryTap(){
+ const a=["Remember the random Roblox sessions? 😂","BGMI mic lore unlocked. 🎙️","Some of the best memories are the completely unplanned ones. 🖤"];
+ document.getElementById("memoryText").textContent=a[Math.floor(Math.random()*a.length)];
+}
+
+let countTimer=null;
+function resetCount(){
+ if(countTimer){clearInterval(countTimer);countTimer=null;}
+ document.getElementById("countdown").textContent="10";
+ document.getElementById("countText").textContent="Something nice is coming...";
+ const b=document.getElementById("countBtn");
+ b.disabled=false;b.textContent="Start ✨";b.onclick=startCount;
+}
+function startCount(){
+ if(countTimer)return;
+ let n=10;
+ const num=document.getElementById("countdown");
+ const text=document.getElementById("countText");
+ const b=document.getElementById("countBtn");
+ b.disabled=true;b.textContent="Counting... ⏳";text.textContent="Stay for the little reveal... 🖤";
+ num.textContent=n;
+ countTimer=setInterval(()=>{
+  n--;num.textContent=n;
+  if(n<=0){
+   clearInterval(countTimer);countTimer=null;
+   num.textContent="🐈‍⬛";
+   text.textContent="Okay. Now you can see the last message.";
+   b.disabled=false;b.textContent="Open the final page ❤️";b.onclick=()=>go(7);
+  }
+ },1000);
+}
+</script>
+</body>
+</html>
